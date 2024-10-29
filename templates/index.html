@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAG con Claude 3 Sonnet</title>
+    
+    <!-- Material Design -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+    
+    <!-- Roboto Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Roboto Mono Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/components/header.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/components/footer.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/components/question.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/components/response.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/components/loading.css') }}" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <h1>RAG con Claude 3 Sonnet</h1>
+            <a href="https://github.com/686f6c61" target="_blank" style="color: white; text-decoration: none;">
+                686f6c61
+            </a>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="question-container">
+            <label class="question-label">
+                <i class="material-icons">help_outline</i>
+                ¿Qué deseas preguntar?
+            </label>
+            <div class="question-form">
+                <textarea 
+                    id="pregunta" 
+                    placeholder="Escribe tu pregunta aquí. Sé específico para obtener mejores resultados..."
+                ></textarea>
+                <div class="button-container">
+                    <button class="mdc-button mdc-button--raised" id="btnPreguntar">
+                        <span class="mdc-button__ripple"></span>
+                        <i class="material-icons">send</i>
+                        <span class="mdc-button__label">Preguntar</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="loading" class="loading-container" style="display: none;">
+            <div class="loading-spinner">
+                <svg class="spinner" viewBox="0 0 50 50">
+                    <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+                </svg>
+            </div>
+            <div class="loading-text">Procesando pregunta...</div>
+        </div>
+
+        <div id="respuesta" class="response" style="display: none;">
+            <div id="contenido-respuesta" class="response-content"></div>
+        </div>
+
+        <div id="fuentes" class="card sources" style="display: none;">
+            <div id="contenido-fuentes"></div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>RAG con Claude 3 Sonnet | <a href="https://github.com/686f6c61" target="_blank">686f6c61</a></p>
+    </footer>
+
+    <!-- Material Design JavaScript -->
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+
+    <!-- Custom JavaScript -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

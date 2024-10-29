@@ -1,14 +1,33 @@
-# 🤖 RAG con Claude 3 Sonnet
+# 🤖 RAG con Claude 3 Sonnet v0.2
 
 ## 📖 Descripción
-Sistema de Recuperación Aumentada de Generación (RAG) implementado con Claude 3 Sonnet 2.5 de Anthropic. Permite realizar consultas sobre documentos PDF utilizando embeddings multilingües y una base de datos vectorial FAISS.
+Sistema de Recuperación Aumentada de Generación (RAG) implementado con Claude 3 Sonnet de Anthropic. Permite realizar consultas sobre documentos PDF a través de una interfaz web moderna, utilizando embeddings multilingües y una base de datos vectorial FAISS.
 
 ## 🛠️ Tecnologías
+
+### Backend
 - **LLM**: Claude 3 Sonnet (Anthropic)
 - **Embeddings**: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
 - **Vector Store**: FAISS (Facebook AI Similarity Search)
-- **Framework**: LangChain
+- **Framework RAG**: LangChain
+- **Servidor Web**: Flask
 - **Procesamiento de Documentos**: PyPDF, RecursiveCharacterTextSplitter
+
+### Frontend
+- **Framework CSS**: Material Design (MDC Web Components)
+- **Diseño**: Material UI con tema personalizado (azul/blanco)
+- **JavaScript**: Vanilla JS con módulos
+- **Fuentes**: Roboto, Material Icons
+
+## 🆕 Nuevas Características v0.2
+- **Interfaz Web Moderna**: Diseño responsive con Material Design
+- **Formato HTML Enriquecido**: Respuestas estructuradas con títulos, párrafos y listas
+- **Contador de Palabras**: Análisis automático de la extensión de respuestas
+- **Referencias Mejoradas**: Citación APA con mejor formato visual
+- **Loading States**: Indicadores visuales durante el procesamiento
+- **Tags Temáticos**: Categorización automática de respuestas
+- **Scroll Automático**: Mejor experiencia de usuario
+- **Respuestas Extensas**: Mínimo 500 palabras por consulta
 
 ## 🔧 Instalación
 
@@ -16,88 +35,94 @@ Sistema de Recuperación Aumentada de Generación (RAG) implementado con Claude 
 - Python 3.8+
 - pip
 - Clave API de Anthropic
+- Navegador web moderno
 
-### Crear entorno virtual
-
+### Crear y activar entorno virtual
+```bash
+# Crear entorno
 python -m venv venv
 
-### Activar entorno virtual
-source venv/bin/activate # Linux/Mac
-venv\Scripts\activate # Windows
+# Activar entorno
+source venv/bin/activate  # Linux/Mac
+venv\Scripts\activate     # Windows
+```
 
 ### Instalar dependencias
-
+```bash
 pip install -r requirements.txt
-
+```
 
 ### Variables de Entorno
 Crear archivo `.env` en la raíz del proyecto:
-
+```env
 ANTHROPIC_API_KEY=tu_clave_de_api_de_anthropic
-
+FLASK_SECRET_KEY=tu_clave_secreta_para_flask
+```
 
 ## 📁 Estructura del Proyecto
-
-
-## Descripción de la Estructura del Proyecto
-
-- **`__init__.py`**: Indica que el directorio `mi_rag_claude` es un paquete Python.
-- **`main.py`**: Archivo principal que actúa como punto de entrada y proporciona una interfaz de línea de comandos (CLI) para interactuar con el sistema RAG.
-- **`config.py`**: Contiene la configuración del proyecto y las variables de entorno necesarias para su funcionamiento.
-- **`rag.py`**: Implementación del sistema **Retrieval-Augmented Generation (RAG)** que integra **Claude** y **Sonnet 2.5**.
-- **`documentos/`**: Directorio destinado a almacenar archivos PDF que serán utilizados por el sistema RAG.
-  - **`ejemplo.pdf`**: Un archivo PDF de ejemplo dentro del directorio `documentos`.
-
-## Cómo Utilizar la Estructura
-
-Esta estructura organizada facilita el mantenimiento y la escalabilidad del proyecto. Asegúrate de mantener una convención de nombres clara y comentarios descriptivos para cada archivo y directorio, lo que ayudará a otros colaboradores a entender rápidamente la funcionalidad de cada componente.
-
-### Pasos Sugeridos
-
-1. **Configuración Inicial**:
-    - Edita `config.py` para establecer las variables de entorno necesarias, como claves API o rutas de acceso a recursos.
-
-2. **Añadir Documentos**:
-    - Coloca los archivos PDF que deseas procesar dentro del directorio `documentos/`.
-
-3. **Ejecutar el Proyecto**:
-    - Usa `main.py` para interactuar con el sistema RAG a través de la línea de comandos.
-
-4. **Desarrollo y Extensiones**:
-    - Modifica `rag.py` para ajustar la implementación del sistema RAG según tus necesidades específicas.
-    - Añade funcionalidades adicionales en otros módulos según sea necesario.
-
-## Ejemplo de Uso
-
-```bash
-python main.py --help
-
-
+```
+mi_rag_claude/
+├── static/
+│   ├── css/
+│   │   ├── main.css
+│   │   └── components/
+│   │       ├── header.css
+│   │       ├── footer.css
+│   │       ├── question.css
+│   │       ├── response.css
+│   │       └── loading.css
+│   └── js/
+│       └── app.js
+├── templates/
+│   └── index.html
+├── documentos/
+│   └── .pdf
+├── init.py
+├── app.py
+├── config.py
+├── rag.py
+└── requirements.txt
+```
 
 ## 🚀 Uso
 
 1. Coloca tus archivos PDF en el directorio `documentos/`
-2. Ejecuta el programa:
-
+2. Inicia el servidor Flask:
 ```bash
-python3 main.py
+python app.py
 ```
-3. Selecciona los PDFs a procesar
-4. Realiza consultas sobre el contenido de los documentos
+3. Abre tu navegador en `http://localhost:5000`
+4. Realiza consultas a través de la interfaz web
 
-## 🔍 Características
+## 🔍 Características Técnicas
 - Procesamiento selectivo de documentos PDF
-- Interfaz CLI intuitiva
+- Interfaz web responsive
 - Historial de chat
-- Citación de fuentes
+- Citación de fuentes en formato APA
 - Embeddings multilingües
 - Chunking inteligente de documentos
+- Respuestas formateadas en HTML
+- Contador de palabras automático
 
 ## ⚙️ Parámetros de Configuración
 - **Chunk Size**: 1000 caracteres
 - **Chunk Overlap**: 200 caracteres
 - **Temperature**: 0.1
 - **Top K**: 3 documentos similares
+- **Palabras mínimas**: 500 por respuesta
+
+## 📦 Dependencias Principales
+```
+flask==3.0.2
+python-dotenv==1.0.1
+langchain==0.1.9
+langchain-community==0.0.24
+langchain-anthropic==0.1.1
+anthropic==0.18.1
+faiss-cpu==1.7.4
+sentence-transformers==2.5.1
+pypdf==4.1.0
+```
 
 ## 🤝 Contribuciones
 Las contribuciones son bienvenidas. Por favor, abre un issue primero para discutir los cambios que te gustaría realizar.
@@ -115,3 +140,5 @@ Este proyecto utiliza la API de Anthropic. Asegúrate de cumplir con sus términ
 - [Documentación de Claude](https://docs.anthropic.com/claude/docs)
 - [LangChain](https://python.langchain.com/docs/get_started/introduction.html)
 - [FAISS](https://github.com/facebookresearch/faiss)
+- [Material Design](https://material.io/develop/web)
+- [Flask](https://flask.palletsprojects.com/)

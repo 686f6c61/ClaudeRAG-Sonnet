@@ -43,15 +43,69 @@ def seleccionar_pdfs(pdfs):
         except ValueError:
             print("\nPor favor, ingrese números válidos separados por comas o 'todos'")
 
-def main():
-    # Verificar que exista al menos un PDF
+def verificar_directorio_documentos():
+    """
+    Verifica la existencia del directorio documentos y los PDFs dentro de él.
+    Retorna una tupla (bool, str) con el estado y mensaje.
+    """
     import os
+    
+    # Verificar si existe el directorio
+    if not os.path.exists(DOCUMENTOS_DIR):
+        try:
+            os.makedirs(DOCUMENTOS_DIR)
+            return False, f"""
+╔══════════════════════ ERROR ══════════════════════╗
+║ No se encontró el directorio 'documentos'.        ║
+║ Se ha creado el directorio automáticamente en:    ║
+║ {os.path.abspath(DOCUMENTOS_DIR)}                 ║
+║                                                   ║
+║ Por favor, sigue estos pasos:                     ║
+║ 1. Coloca tus archivos PDF en el directorio      ║
+║ 2. Ejecuta el programa nuevamente                 ║
+╚═══════════════════════════════════════════════════╝
+"""
+        except Exception as e:
+            return False, f"""
+╔══════════════════════ ERROR ══════════════════════╗
+║ No se pudo crear el directorio 'documentos'.      ║
+║ Error: {str(e)}                                   ║
+║                                                   ║
+║ Por favor, verifica los permisos del sistema     ║
+║ y crea el directorio manualmente en:             ║
+║ {os.path.abspath(os.path.dirname(__file__))}     ║
+╚═══════════════════════════════════════════════════╝
+"""
+
+    # Verificar archivos PDF
     pdfs = [f for f in os.listdir(DOCUMENTOS_DIR) if f.endswith('.pdf')]
     if not pdfs:
-        print("Error: No se encontraron archivos PDF en el directorio 'documentos'")
-        print("Por favor, agrega al menos un archivo PDF antes de ejecutar el programa")
-        sys.exit(1)
+        return False, f"""
+╔══════════════════════ ERROR ══════════════════════╗
+║ No se encontraron archivos PDF en el directorio   ║
+║ 'documentos'.                                     ║
+║                                                   ║
+║ Directorio actual:                               ║
+║ {os.path.abspath(DOCUMENTOS_DIR)}                 ║
+║                                                   ║
+║ Por favor:                                        ║
+║ 1. Agrega tus archivos PDF al directorio         ║
+║ 2. Verifica que los archivos tengan              ║
+║    extensión .pdf (en minúsculas)                ║
+║ 3. Ejecuta el programa nuevamente                ║
+╚═══════════════════════════════════════════════════╝
+"""
+    
+    return True, pdfs
 
+def main():
+    # Verificar directorio y PDFs
+    estado, resultado = verificar_directorio_documentos()
+    if not estado:
+        print(resultado)
+        sys.exit(1)
+    
+    pdfs = resultado
     # Seleccionar PDFs a procesar
     pdfs_seleccionados = seleccionar_pdfs(pdfs)
     
@@ -79,7 +133,14 @@ def main():
                 
                 respuesta = hacer_pregunta(rag, pregunta, historial_chat)
                 print("\nRespuesta:", respuesta["respuesta"])
-                print("\nFuentes:", [doc.metadata.get('source', 'Desconocido') for doc in respuesta["documentos_fuente"]])
+                
+                # Mostrar fuentes organizadas por documento
+                print("\nFuentes utilizadas:")
+                print("="*50)
+                for pdf, docs in respuesta["fuentes_por_documento"].items():
+                    print(f"\n📄 {pdf}:")
+                    for i, doc in enumerate(docs, 1):
+                        print(f"  {i}. Fragmento {doc.metadata.get('order', '?')}")
                 
                 # Actualizar historial
                 historial_chat.append((pregunta, respuesta["respuesta"]))

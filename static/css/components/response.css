@@ -1,0 +1,141 @@
+.contenedor-respuesta {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(33, 150, 243, 0.1);
+    overflow: hidden;
+}
+
+.respuesta-completa {
+    padding: 24px;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.8;
+}
+
+.respuesta-completa h2 {
+    color: var(--mdc-theme-primary);
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--mdc-theme-primary);
+}
+
+.respuesta-completa h3 {
+    color: var(--mdc-theme-primary);
+    font-size: 1.4rem;
+    margin: 2rem 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #E3F2FD;
+}
+
+.respuesta-completa h4 {
+    color: #1976D2;
+    font-size: 1.2rem;
+    margin: 1.5rem 0 1rem;
+}
+
+.contenido {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #333;
+}
+
+.contenido p {
+    margin-bottom: 1.2rem;
+    line-height: 1.8;
+    color: #333;
+    text-align: justify;
+}
+
+.contenido strong {
+    color: var(--mdc-theme-primary);
+    font-weight: 500;
+}
+
+.contenido ul {
+    margin: 1.5rem 0;
+    padding-left: 2rem;
+}
+
+.contenido li {
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.contenido blockquote {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background-color: #E3F2FD;
+    border-left: 4px solid var(--mdc-theme-primary);
+    font-style: italic;
+    color: #444;
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #E0E0E0;
+}
+
+.tag {
+    background-color: #E3F2FD;
+    color: var(--mdc-theme-primary);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.tag:hover {
+    background-color: var(--mdc-theme-primary);
+    color: white;
+    transform: translateY(-1px);
+}
+
+/* Estilos para las referencias */
+.referencias {
+    margin-top: 2rem;
+    padding: 24px;
+    background-color: #FAFAFA;
+    border-top: 1px solid #E0E0E0;
+}
+
+.referencias h3 {
+    color: var(--mdc-theme-primary);
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+}
+
+.referencias-lista {
+    list-style: none;
+}
+
+.contador-palabras {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid #E0E0E0;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.contador-palabras .material-icons {
+    font-size: 18px;
+    color: var(--mdc-theme-primary);
+}
+
+.contador-palabras span {
+    font-family: 'Roboto Mono', monospace;
+}
+
+/* Añadir separadores visuales entre secciones */
+.contenido h3:not(:first-child) {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid #E0E0E0;
+}

@@ -1,0 +1,28 @@
+:root {
+    --mdc-theme-primary: #2196F3;
+    --mdc-theme-secondary: #1976D2;
+    --mdc-theme-background: #FFFFFF;
+    --mdc-theme-surface: #FFFFFF;
+    --mdc-theme-error: #B00020;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #F5F5F5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-content {
+    flex: 1;
+    max-width: 800px;
+    margin: 84px auto 20px;
+    padding: 20px;
+}
