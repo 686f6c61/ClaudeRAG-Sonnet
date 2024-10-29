@@ -38,14 +38,14 @@ ANTHROPIC_API_KEY=tu_clave_de_api_de_anthropic
 
 ## 📁 Estructura del Proyecto
 
-
 mi_rag_claude/
-├── init.py
-├── main.py # Punto de entrada y CLI
-├── config.py # Configuración y variables de entorno
-├── rag.py # Implementación del sistema RAG
-└── documentos/ # Directorio para PDFs
-    └── .pdf
+├── __init__.py
+├── main.py          # Punto de entrada y CLI
+├── config.py        # Configuración y variables de entorno
+├── rag.py           # Implementación del sistema RAG
+└── documentos/      # Directorio para PDFs
+    └── ejemplo.pdf
+
 
 
 ## 🚀 Uso
