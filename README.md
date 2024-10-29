@@ -1,144 +1,131 @@
-# 🤖 RAG con Claude 3 Sonnet v0.2
+ # RAG MultiLLM
 
-## 📖 Descripción
-Sistema de Recuperación Aumentada de Generación (RAG) implementado con Claude 3 Sonnet de Anthropic. Permite realizar consultas sobre documentos PDF a través de una interfaz web moderna, utilizando embeddings multilingües y una base de datos vectorial FAISS.
+## Descripción
+RAG MultiLLM es un sistema de Recuperación Aumentada de Generación (RAG) que integra múltiples modelos de lenguaje de última generación. Esta aplicación permite interactuar con tres de los LLMs más potentes del mercado: Claude 3 Sonnet de Anthropic, GPT-4 Turbo de OpenAI y Mistral Large de Mistral AI. El sistema está diseñado para proporcionar respuestas contextualizadas y precisas basadas en documentos PDF proporcionados por el usuario.
 
-## 🛠️ Tecnologías
+## Características Principales
+- **Múltiples Modelos**: Integración con tres LLMs líderes:
+  - Claude 3 Sonnet (Anthropic)
+  - GPT-4 Turbo (OpenAI)
+  - Mistral Large (Mistral AI)
+- **Sistema RAG Avanzado**: Procesamiento y recuperación inteligente de información desde documentos PDF
+- **Interfaz Moderna**: UI/UX intuitiva con Material Design
+- **Respuestas Estructuradas**: Formato HTML enriquecido con referencias y citas
+- **Procesamiento Asíncrono**: Manejo eficiente de solicitudes y respuestas
 
-### Backend
-- **LLM**: Claude 3 Sonnet (Anthropic)
-- **Embeddings**: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
-- **Vector Store**: FAISS (Facebook AI Similarity Search)
-- **Framework RAG**: LangChain
-- **Servidor Web**: Flask
-- **Procesamiento de Documentos**: PyPDF, RecursiveCharacterTextSplitter
+## Requisitos Previos
+- Python 3.10 o superior
+- pip (gestor de paquetes de Python)
+- Claves API de:
+  - Anthropic (Claude)
+  - OpenAI (GPT-4)
+  - Mistral AI
 
-### Frontend
-- **Framework CSS**: Material Design (MDC Web Components)
-- **Diseño**: Material UI con tema personalizado (azul/blanco)
-- **JavaScript**: Vanilla JS con módulos
-- **Fuentes**: Roboto, Material Icons
+## Instalación
 
-## 🆕 Nuevas Características v0.2
-- **Interfaz Web Moderna**: Diseño responsive con Material Design
-- **Formato HTML Enriquecido**: Respuestas estructuradas con títulos, párrafos y listas
-- **Contador de Palabras**: Análisis automático de la extensión de respuestas
-- **Referencias Mejoradas**: Citación APA con mejor formato visual
-- **Loading States**: Indicadores visuales durante el procesamiento
-- **Tags Temáticos**: Categorización automática de respuestas
-- **Scroll Automático**: Mejor experiencia de usuario
-- **Respuestas Extensas**: Mínimo 500 palabras por consulta
-
-## 🔧 Instalación
-
-### Prerrequisitos
-- Python 3.8+
-- pip
-- Clave API de Anthropic
-- Navegador web moderno
-
-### Crear y activar entorno virtual
+1. Clonar el repositorio:
 ```bash
-# Crear entorno
-python -m venv venv
-
-# Activar entorno
-source venv/bin/activate  # Linux/Mac
-venv\Scripts\activate     # Windows
+git clone https://github.com/yourusername/rag-multillm.git
+cd rag-multillm
 ```
 
-### Instalar dependencias
+2. Crear y activar entorno virtual:
+```bash
+python -m venv venv
+source venv/bin/activate  # En Windows: venv\Scripts\activate
+```
+
+3. Instalar dependencias:
 ```bash
 pip install -r requirements.txt
 ```
 
-### Variables de Entorno
-Crear archivo `.env` en la raíz del proyecto:
+## Configuración
+Crear un archivo `.env` en la raíz del proyecto:
 ```env
-ANTHROPIC_API_KEY=tu_clave_de_api_de_anthropic
-FLASK_SECRET_KEY=tu_clave_secreta_para_flask
+ANTHROPIC_API_KEY=your_anthropic_api_key
+OPENAI_API_KEY=your_openai_api_key
+MISTRAL_API_KEY=your_mistral_api_key
+FLASK_SECRET_KEY=your_flask_secret_key
 ```
 
-## 📁 Estructura del Proyecto
+## Dependencias Principales
+```text
+flask==3.0.2
+python-dotenv==1.0.1
+langchain==0.1.9
+langchain-community==0.0.24
+langchain-anthropic==0.1.1
+langchain-openai==0.0.8
+langchain-mistralai==0.0.3
+anthropic==0.18.1
+openai==1.12.0
+mistralai>=0.0.11,<0.0.12
+faiss-cpu==1.7.4
+sentence-transformers==2.5.1
+pypdf==4.1.0
 ```
-mi_rag_claude/
+
+## Uso
+1. Iniciar la aplicación:
+```bash
+python app.py
+```
+
+2. Abrir el navegador y acceder a:
+```
+http://localhost:5000
+```
+
+3. Seleccionar el modelo de IA deseado
+4. Realizar preguntas sobre los documentos cargados
+
+## Estructura del Proyecto
+```
+rag-multillm/
 ├── static/
 │   ├── css/
-│   │   ├── main.css
-│   │   └── components/
-│   │       ├── header.css
-│   │       ├── footer.css
-│   │       ├── question.css
-│   │       ├── response.css
-│   │       └── loading.css
-│   └── js/
-│       └── app.js
+│   ├── js/
+│   └── images/
 ├── templates/
-│   └── index.html
-├── documentos/
-│   └── .pdf
-├── init.py
+├── uploads/
+├── .env
 ├── app.py
 ├── config.py
 ├── rag.py
 └── requirements.txt
 ```
 
-## 🚀 Uso
+## Características de los Modelos
 
-1. Coloca tus archivos PDF en el directorio `documentos/`
-2. Inicia el servidor Flask:
-```bash
-python app.py
-```
-3. Abre tu navegador en `http://localhost:5000`
-4. Realiza consultas a través de la interfaz web
+### Claude 3 Sonnet
+- Excelente comprensión contextual
+- Respuestas detalladas y estructuradas
+- Soporte multilingüe avanzado
 
-## 🔍 Características Técnicas
-- Procesamiento selectivo de documentos PDF
-- Interfaz web responsive
-- Historial de chat
-- Citación de fuentes en formato APA
-- Embeddings multilingües
-- Chunking inteligente de documentos
-- Respuestas formateadas en HTML
-- Contador de palabras automático
+### GPT-4 Turbo
+- Alta precisión en respuestas
+- Razonamiento complejo
+- Versatilidad en tareas diversas
 
-## ⚙️ Parámetros de Configuración
-- **Chunk Size**: 1000 caracteres
-- **Chunk Overlap**: 200 caracteres
-- **Temperature**: 0.1
-- **Top K**: 3 documentos similares
-- **Palabras mínimas**: 500 por respuesta
+### Mistral Large
+- Alto rendimiento y velocidad
+- Excelente en análisis técnico
+- Eficiente en recursos
 
-## 📦 Dependencias Principales
-```
-flask==3.0.2
-python-dotenv==1.0.1
-langchain==0.1.9
-langchain-community==0.0.24
-langchain-anthropic==0.1.1
-anthropic==0.18.1
-faiss-cpu==1.7.4
-sentence-transformers==2.5.1
-pypdf==4.1.0
-```
+## Contribución
+Las contribuciones son bienvenidas. Por favor, sigue estos pasos:
+1. Fork el repositorio
+2. Crea una rama para tu feature
+3. Commit tus cambios
+4. Push a la rama
+5. Crea un Pull Request
 
-## 🤝 Contribuciones
-Las contribuciones son bienvenidas. Por favor, abre un issue primero para discutir los cambios que te gustaría realizar.
+## Licencia
+Este proyecto está bajo la licencia MIT. Ver el archivo `LICENSE` para más detalles.
 
-## 📄 Licencia
-MIT License
+## Autor
+@686f6c61
 
-## 👤 Autor
-[686f6c61](https://github.com/686f6c61)
-
-## ⚠️ Disclaimer
-Este proyecto utiliza la API de Anthropic. Asegúrate de cumplir con sus términos de servicio y políticas de uso.
-
-## 🔗 Enlaces Útiles
-- [Documentación de Claude](https://docs.anthropic.com/claude/docs)
-- [LangChain](https://python.langchain.com/docs/get_started/introduction.html)
-- [FAISS](https://github.com/facebookresearch/faiss)
-- [Material Design](https://material.io/develop/web)
-- [Flask](https://flask.palletsprojects.com/)
+## Versión
+v0.3 - Integración de múltiples modelos LLM
