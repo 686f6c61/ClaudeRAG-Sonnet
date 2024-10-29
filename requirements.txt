@@ -1,0 +1,42 @@
+# Core LangChain
+langchain==0.1.12
+langchain-community==0.0.27
+langchain-anthropic==0.1.4
+langchain-core==0.1.31
+
+# Embeddings y Vector Store
+faiss-cpu==1.8.0
+sentence-transformers==2.5.1
+
+# Procesamiento de PDF
+pypdf==4.1.0
+
+# Variables de entorno
+python-dotenv==1.0.1
+
+# Dependencias adicionales
+numpy==1.24.3
+requests==2.31.0
+tqdm==4.66.2
+pydantic==2.6.4
+typing-extensions==4.10.0
+typing-inspect==0.9.0
+aiohttp==3.9.3
+charset-normalizer==3.3.2
+colorama==0.4.6
+idna==3.6
+multidict==6.0.5
+yarl==1.9.4
+attrs==23.2.0
+certifi==2024.2.2
+filelock==3.13.1
+fsspec==2024.2.0
+huggingface-hub==0.21.4
+packaging==24.0
+pillow==10.2.0
+safetensors==0.4.2
+sympy==1.12
+torch==2.2.1
+torchvision==0.17.1
+transformers==4.38.2
+urllib3==2.2.1 
