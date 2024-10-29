@@ -1,27 +1,27 @@
- # RAG MultiLLM
+# 🤖 RAG MultiLLM
 
-## Descripción
+## 📝 Descripción
 RAG MultiLLM es un sistema de Recuperación Aumentada de Generación (RAG) que integra múltiples modelos de lenguaje de última generación. Esta aplicación permite interactuar con tres de los LLMs más potentes del mercado: Claude 3 Sonnet de Anthropic, GPT-4 Turbo de OpenAI y Mistral Large de Mistral AI. El sistema está diseñado para proporcionar respuestas contextualizadas y precisas basadas en documentos PDF proporcionados por el usuario.
 
-## Características Principales
-- **Múltiples Modelos**: Integración con tres LLMs líderes:
-  - Claude 3 Sonnet (Anthropic)
-  - GPT-4 Turbo (OpenAI)
-  - Mistral Large (Mistral AI)
-- **Sistema RAG Avanzado**: Procesamiento y recuperación inteligente de información desde documentos PDF
-- **Interfaz Moderna**: UI/UX intuitiva con Material Design
-- **Respuestas Estructuradas**: Formato HTML enriquecido con referencias y citas
-- **Procesamiento Asíncrono**: Manejo eficiente de solicitudes y respuestas
+## ✨ Características Principales
+- **🔄 Múltiples Modelos**: Integración con tres LLMs líderes:
+  - 🧠 Claude 3 Sonnet (Anthropic)
+  - 🌟 GPT-4 Turbo (OpenAI)
+  - ⚡ Mistral Large (Mistral AI)
+- **📚 Sistema RAG Avanzado**: Procesamiento y recuperación inteligente de información desde documentos PDF
+- **🎨 Interfaz Moderna**: UI/UX intuitiva con Material Design
+- **📋 Respuestas Estructuradas**: Formato HTML enriquecido con referencias y citas
+- **⚡ Procesamiento Asíncrono**: Manejo eficiente de solicitudes y respuestas
 
-## Requisitos Previos
-- Python 3.10 o superior
-- pip (gestor de paquetes de Python)
-- Claves API de:
+## 📋 Requisitos Previos
+- 🐍 Python 3.10 o superior
+- 📦 pip (gestor de paquetes de Python)
+- 🔑 Claves API de:
   - Anthropic (Claude)
   - OpenAI (GPT-4)
   - Mistral AI
 
-## Instalación
+## 🚀 Instalación
 
 1. Clonar el repositorio:
 ```bash
@@ -40,7 +40,7 @@ source venv/bin/activate  # En Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-## Configuración
+## ⚙️ Configuración
 Crear un archivo `.env` en la raíz del proyecto:
 ```env
 ANTHROPIC_API_KEY=your_anthropic_api_key
@@ -49,7 +49,7 @@ MISTRAL_API_KEY=your_mistral_api_key
 FLASK_SECRET_KEY=your_flask_secret_key
 ```
 
-## Dependencias Principales
+## 📦 Dependencias Principales
 ```text
 flask==3.0.2
 python-dotenv==1.0.1
@@ -66,7 +66,7 @@ sentence-transformers==2.5.1
 pypdf==4.1.0
 ```
 
-## Uso
+## 🎮 Uso
 1. Iniciar la aplicación:
 ```bash
 python app.py
@@ -80,7 +80,7 @@ http://localhost:5000
 3. Seleccionar el modelo de IA deseado
 4. Realizar preguntas sobre los documentos cargados
 
-## Estructura del Proyecto
+## 📁 Estructura del Proyecto
 ```
 rag-multillm/
 ├── static/
@@ -96,24 +96,24 @@ rag-multillm/
 └── requirements.txt
 ```
 
-## Características de los Modelos
+## 🤖 Características de los Modelos
 
-### Claude 3 Sonnet
+### 🧠 Claude 3 Sonnet
 - Excelente comprensión contextual
 - Respuestas detalladas y estructuradas
 - Soporte multilingüe avanzado
 
-### GPT-4 Turbo
+### 🌟 GPT-4 Turbo
 - Alta precisión en respuestas
 - Razonamiento complejo
 - Versatilidad en tareas diversas
 
-### Mistral Large
+### ⚡ Mistral Large
 - Alto rendimiento y velocidad
 - Excelente en análisis técnico
 - Eficiente en recursos
 
-## Contribución
+## 🤝 Contribución
 Las contribuciones son bienvenidas. Por favor, sigue estos pasos:
 1. Fork el repositorio
 2. Crea una rama para tu feature
@@ -121,11 +121,11 @@ Las contribuciones son bienvenidas. Por favor, sigue estos pasos:
 4. Push a la rama
 5. Crea un Pull Request
 
-## Licencia
+## 📄 Licencia
 Este proyecto está bajo la licencia MIT. Ver el archivo `LICENSE` para más detalles.
 
-## Autor
+## 👨‍💻 Autor
 @686f6c61
 
-## Versión
+## 🔖 Versión
 v0.3 - Integración de múltiples modelos LLM
