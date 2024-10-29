@@ -1,85 +1,80 @@
 .question-container {
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(33, 150, 243, 0.15);
-    padding: 32px;
-    margin: 40px 0;
-    transition: box-shadow 0.3s ease;
-}
-
-.question-container:hover {
-    box-shadow: 0 8px 16px rgba(33, 150, 243, 0.2);
-}
-
-.question-label {
-    color: var(--mdc-theme-primary);
-    font-size: 1.4rem;
-    font-weight: 500;
-    margin-bottom: 24px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.question-label .material-icons {
-    font-size: 32px;
-    color: var(--mdc-theme-primary);
-}
-
-.question-form textarea {
-    width: 100%;
-    min-height: 180px;
+    max-width: 800px;
+    margin: 40px auto;
     padding: 24px;
-    border: 2px solid #E3F2FD;
-    border-radius: 12px;
-    font-family: 'Roboto', sans-serif;
-    font-size: 1.1rem;
-    line-height: 1.6;
-    resize: vertical;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.question-title {
+    color: var(--mdc-theme-primary);
+    font-size: 1.5rem;
     margin-bottom: 24px;
-    transition: all 0.3s ease;
-    background-color: #FAFAFA;
+    text-align: center;
 }
 
-.question-form textarea:focus {
-    border-color: var(--mdc-theme-primary);
-    outline: none;
-    background-color: white;
-    box-shadow: 0 4px 12px rgba(33, 150, 243, 0.1);
+/* Estilos para el textarea */
+.mdc-text-field {
+    width: 100%;
+    background-color: white !important;
 }
 
-.question-form textarea::placeholder {
-    color: #90CAF9;
-    font-size: 1.1rem;
+.mdc-text-field--textarea .mdc-text-field__input {
+    padding: 16px !important;
+    min-height: 120px !important;
+    resize: vertical !important;
+    font-family: inherit;
+    font-size: 1rem;
+    line-height: 1.5;
+    caret-color: var(--mdc-theme-primary);
+}
+
+/* Estilos para el botón */
+.mdc-button {
+    --mdc-theme-primary: #1976D2;
+    --mdc-theme-on-primary: white;
+    height: 48px;
+    padding: 0 24px;
+    font-size: 1rem;
+    font-weight: 500;
 }
 
 .button-container {
     display: flex;
-    justify-content: flex-end;
-    margin-top: 16px;
+    justify-content: center;
+    margin-top: 24px;
 }
 
-.mdc-button {
-    height: 48px !important;
-    font-size: 1.1rem !important;
-    text-transform: none !important;
-    font-weight: 500 !important;
-    border-radius: 24px !important;
-    padding: 0 36px !important;
-    box-shadow: 0 4px 8px rgba(33, 150, 243, 0.2) !important;
-    transition: all 0.2s ease !important;
+/* Estilos para el estado focus */
+.mdc-text-field--focused:not(.mdc-text-field--disabled) .mdc-floating-label {
+    color: var(--mdc-theme-primary);
 }
 
-.mdc-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(33, 150, 243, 0.3) !important;
+.mdc-text-field--textarea.mdc-text-field--focused:not(.mdc-text-field--disabled) .mdc-notched-outline__leading,
+.mdc-text-field--textarea.mdc-text-field--focused:not(.mdc-text-field--disabled) .mdc-notched-outline__notch,
+.mdc-text-field--textarea.mdc-text-field--focused:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing {
+    border-color: var(--mdc-theme-primary);
 }
 
-.mdc-button:active {
-    transform: translateY(1px);
+/* Estilos para el loading */
+.loading-container {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    margin: 24px 0;
 }
 
-.mdc-button .material-icons {
-    font-size: 24px !important;
-    margin-right: 12px !important;
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid var(--mdc-theme-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }

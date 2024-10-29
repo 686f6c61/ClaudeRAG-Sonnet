@@ -1,9 +1,7 @@
 :root {
-    --mdc-theme-primary: #2196F3;
-    --mdc-theme-secondary: #1976D2;
-    --mdc-theme-background: #FFFFFF;
-    --mdc-theme-surface: #FFFFFF;
-    --mdc-theme-error: #B00020;
+    --mdc-theme-primary: #1976D2;
+    --mdc-theme-secondary: #4CAF50;
+    --mdc-theme-background: #f8f9fa;
 }
 
 * {
@@ -13,16 +11,37 @@
 }
 
 body {
+    margin: 0;
+    padding: 0;
     font-family: 'Roboto', sans-serif;
-    background-color: #F5F5F5;
+    background-color: var(--mdc-theme-background);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    padding-top: 64px; /* Altura del header */
 }
 
-.main-content {
+main {
     flex: 1;
-    max-width: 800px;
-    margin: 84px auto 20px;
-    padding: 20px;
+    position: relative;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px;
+}
+
+/* Ajustes para el espaciado */
+.model-selector-container {
+    margin-top: 32px;
+    margin-bottom: 48px;
+}
+
+.model-selector-title {
+    text-align: center;
+    color: var(--mdc-theme-primary);
+    font-size: 2rem;
+    margin-bottom: 32px;
+    font-weight: 500;
 }

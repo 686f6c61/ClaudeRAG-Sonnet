@@ -22,45 +22,133 @@
     <link href="{{ url_for('static', filename='css/components/question.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/components/response.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/components/loading.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/components/model-selector.css') }}" rel="stylesheet">
 </head>
 <body>
-    <header class="header">
-        <div class="header-content">
-            <h1>RAG con Claude 3 Sonnet</h1>
-            <a href="https://github.com/686f6c61" target="_blank" style="color: white; text-decoration: none;">
-                686f6c61
-            </a>
+    <header class="mdc-top-app-bar">
+        <div class="mdc-top-app-bar__row">
+            <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+                <span class="mdc-top-app-bar__title">RAG MultiLLM</span>
+                <span class="project-author">un side project de 686f6c61</span>
+            </section>
+            <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
+                <span class="version-badge">v0.2</span>
+            </section>
         </div>
     </header>
 
-    <main class="main-content">
-        <div class="question-container">
-            <label class="question-label">
-                <i class="material-icons">help_outline</i>
-                ¿Qué deseas preguntar?
-            </label>
-            <div class="question-form">
-                <textarea 
-                    id="pregunta" 
-                    placeholder="Escribe tu pregunta aquí. Sé específico para obtener mejores resultados..."
-                ></textarea>
-                <div class="button-container">
-                    <button class="mdc-button mdc-button--raised" id="btnPreguntar">
-                        <span class="mdc-button__ripple"></span>
-                        <i class="material-icons">send</i>
-                        <span class="mdc-button__label">Preguntar</span>
-                    </button>
+    <div class="model-selector-container">
+        <h2 class="model-selector-title">Selecciona el Modelo de IA</h2>
+        <div class="model-cards">
+            <div class="model-card" data-model="claude">
+                <div class="model-card-header">
+                    <img src="{{ url_for('static', filename='images/claude.png') }}" 
+                         alt="Claude by Anthropic" 
+                         class="model-logo">
+                    <h4>
+                        <a href="https://www.anthropic.com/claude" 
+                           target="_blank" 
+                           rel="noopener" 
+                           class="model-title-link">
+                            Claude Sonnet 2.5
+                        </a>
+                    </h4>
                 </div>
+                <div class="model-card-content">
+                    <p>Modelo de Anthropic con capacidades multilingües y comprensión contextual avanzada.</p>
+                    <ul>
+                        <li>Respuestas detalladas y estructuradas</li>
+                        <li>Comprensión contextual profunda</li>
+                        <li>Soporte multilingüe avanzado</li>
+                    </ul>
+                </div>
+                <button class="mdc-button mdc-button--raised select-model-btn" data-model="claude">
+                    <span class="mdc-button__ripple"></span>
+                    <span class="mdc-button__label">Seleccionar Claude</span>
+                </button>
+            </div>
+
+            <div class="model-card" data-model="gpt4">
+                <div class="model-card-header">
+                    <img src="{{ url_for('static', filename='images/openai.png') }}" 
+                         alt="GPT-4 by OpenAI" 
+                         class="model-logo">
+                    <h4>
+                        <a href="https://openai.com/gpt-4" 
+                           target="_blank" 
+                           rel="noopener" 
+                           class="model-title-link">
+                            GPT-4 Turbo
+                        </a>
+                    </h4>
+                </div>
+                <div class="model-card-content">
+                    <p>Modelo más avanzado de OpenAI con capacidades de razonamiento superiores.</p>
+                    <ul>
+                        <li>Alta precisión en respuestas</li>
+                        <li>Razonamiento complejo y analítico</li>
+                        <li>Versatilidad en tareas diversas</li>
+                    </ul>
+                </div>
+                <button class="mdc-button mdc-button--raised select-model-btn" data-model="gpt4">
+                    <span class="mdc-button__ripple"></span>
+                    <span class="mdc-button__label">Seleccionar GPT-4</span>
+                </button>
+            </div>
+
+            <div class="model-card" data-model="mistral">
+                <div class="model-card-header">
+                    <img src="{{ url_for('static', filename='images/mistral.png') }}" 
+                         alt="Mistral AI" 
+                         class="model-logo">
+                    <h4>
+                        <a href="https://mistral.ai/product/" 
+                           target="_blank" 
+                           rel="noopener" 
+                           class="model-title-link">
+                            Mistral Large
+                        </a>
+                    </h4>
+                </div>
+                <div class="model-card-content">
+                    <p>Modelo de código abierto con excelente rendimiento y eficiencia.</p>
+                    <ul>
+                        <li>Alto rendimiento y velocidad</li>
+                        <li>Excelente en análisis técnico</li>
+                        <li>Eficiente en recursos</li>
+                        <li>Código abierto y transparente</li>
+                    </ul>
+                </div>
+                <button class="mdc-button mdc-button--raised select-model-btn" data-model="mistral">
+                    <span class="mdc-button__ripple"></span>
+                    <i class="material-icons mdc-button__icon">memory</i>
+                    <span class="mdc-button__label">Seleccionar Mistral</span>
+                </button>
             </div>
         </div>
+    </div>
 
-        <div id="loading" class="loading-container" style="display: none;">
-            <div class="loading-spinner">
-                <svg class="spinner" viewBox="0 0 50 50">
-                    <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
-                </svg>
+    <main class="main-content">
+        <div class="question-container">
+            <h3 class="question-title">¿Qué deseas preguntar?</h3>
+            <div class="mdc-text-field mdc-text-field--textarea">
+                <span class="mdc-text-field__ripple"></span>
+                <textarea class="mdc-text-field__input" 
+                          rows="8" 
+                          cols="40" 
+                          aria-label="Escribe tu pregunta" 
+                          id="pregunta"></textarea>
+                <span class="mdc-line-ripple"></span>
             </div>
-            <div class="loading-text">Procesando pregunta...</div>
+            <div class="button-container">
+                <button class="mdc-button mdc-button--raised" id="btnPreguntar">
+                    <span class="mdc-button__ripple"></span>
+                    <span class="mdc-button__label">Preguntar</span>
+                </button>
+            </div>
+            <div class="loading-container" id="loading" style="display: none;">
+                <div class="loading-spinner"></div>
+            </div>
         </div>
 
         <div id="respuesta" class="response" style="display: none;">
@@ -73,7 +161,16 @@
     </main>
 
     <footer class="footer">
-        <p>RAG con Claude 3 Sonnet | <a href="https://github.com/686f6c61" target="_blank">686f6c61</a></p>
+        <div class="footer-content">
+            <p>RAG MultiLLM &copy; 2024</p>
+            <p class="footer-links">
+                <a href="https://github.com/686f6c61" target="_blank" rel="noopener">
+                    <i class="material-icons">code</i>
+                    <span>@686f6c61</span>
+                </a>
+            </p>
+            <p class="footer-version">Versión 0.2</p>
+        </div>
     </footer>
 
     <!-- Material Design JavaScript -->

@@ -1,150 +1,184 @@
-// Esperar a que el DOM esté completamente cargado
+// Variables globales
+let selectedModel = null;
+
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM Cargado'); // Debug
+    
     // Inicializar componentes de Material Design
     mdc.autoInit();
 
-    function mostrarError(mensaje) {
-        // Mostrar error en un toast o alert
-        alert(mensaje);
+    // Ocultar el preloader inicialmente
+    const loading = document.getElementById('loading');
+    if (loading) {
+        loading.style.display = 'none';
     }
 
-    function mostrarCargando(mostrar) {
-        const loading = document.getElementById('loading');
-        const btnPreguntar = document.getElementById('btnPreguntar');
-        const preguntaTextarea = document.getElementById('pregunta');
-        
-        if (loading && btnPreguntar && preguntaTextarea) {
-            // Mostrar/ocultar el spinner
-            loading.style.display = mostrar ? 'flex' : 'none';
-            
-            // Deshabilitar/habilitar elementos durante la carga
-            btnPreguntar.disabled = mostrar;
-            preguntaTextarea.disabled = mostrar;
-            
-            // Actualizar clases y estilos
-            if (mostrar) {
-                btnPreguntar.classList.add('mdc-button--disabled');
-                preguntaTextarea.classList.add('textarea--disabled');
-                // Scroll al loader
-                loading.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            } else {
-                btnPreguntar.classList.remove('mdc-button--disabled');
-                preguntaTextarea.classList.remove('textarea--disabled');
-            }
-        }
+    // Inicializar selector de modelo
+    initializeModelSelector();
+
+    // Inicializar eventos del formulario de pregunta
+    initializeQuestionForm();
+});
+
+function initializeModelSelector() {
+    console.log('Inicializando selector de modelo'); // Debug
+    
+    const modelCards = document.querySelectorAll('.model-card');
+    const questionContainer = document.querySelector('.question-container');
+
+    console.log('Número de model-cards encontradas:', modelCards.length); // Debug
+
+    if (questionContainer) {
+        questionContainer.style.display = 'none';
     }
 
-    function contarPalabras(html) {
-        // Crear un elemento temporal
-        const temp = document.createElement('div');
-        temp.innerHTML = html;
-        
-        // Obtener solo el texto, eliminando HTML
-        const texto = temp.textContent || temp.innerText;
-        
-        // Contar palabras (dividir por espacios y filtrar elementos vacíos)
-        const palabras = texto.trim().split(/\s+/).filter(word => word.length > 0);
-        
-        return palabras.length;
-    }
-
-    function mostrarRespuesta(data) {
-        const respuestaDiv = document.getElementById('respuesta');
-        const contenidoRespuesta = document.getElementById('contenido-respuesta');
-
-        if (respuestaDiv && contenidoRespuesta) {
-            // Limpiar contenido anterior
-            contenidoRespuesta.innerHTML = '';
-            
-            if (data.respuesta) {
-                // Contar palabras
-                const numeroPalabras = contarPalabras(data.respuesta);
-                
-                // Crear el contenedor de la respuesta con el contador
-                const contenedorCompleto = `
-                    <div class="contenedor-respuesta">
-                        ${data.respuesta}
-                        <div class="contador-palabras">
-                            <i class="material-icons">format_list_numbered</i>
-                            <span>${numeroPalabras} palabras</span>
-                        </div>
-                    </div>
-                `;
-                
-                // Insertar en el DOM
-                contenidoRespuesta.innerHTML = contenedorCompleto;
-                
-                // Mostrar el contenedor
-                respuestaDiv.style.display = 'block';
-                
-                // Reinicializar componentes de Material Design
-                mdc.autoInit(contenidoRespuesta);
-                
-                // Scroll suave hasta la respuesta
-                respuestaDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        }
-    }
-
-    async function hacerPregunta() {
-        const preguntaInput = document.getElementById('pregunta');
-        const pregunta = preguntaInput?.value?.trim();
-
-        if (!pregunta) {
-            mostrarError('Por favor, escribe una pregunta');
-            return;
-        }
-
-        try {
-            // Mostrar loading y ocultar resultados anteriores
-            mostrarCargando(true);
-            document.getElementById('respuesta').style.display = 'none';
-
-            // Realizar la petición al servidor
-            const response = await fetch('/preguntar', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ pregunta: pregunta })
+    modelCards.forEach(card => {
+        const btn = card.querySelector('.select-model-btn');
+        if (btn) {
+            btn.addEventListener('click', function(e) {
+                console.log('Botón de modelo clickeado:', this.dataset.model); // Debug
+                e.preventDefault();
+                e.stopPropagation();
+                const model = this.dataset.model;
+                selectModel(model, card);
             });
-
-            if (!response.ok) {
-                throw new Error(`Error del servidor: ${response.status}`);
-            }
-
-            const data = await response.json();
-
-            if (data.error) {
-                throw new Error(data.error);
-            }
-
-            // Mostrar la respuesta
-            mostrarRespuesta(data);
-
-        } catch (error) {
-            console.error('Error:', error);
-            mostrarError(`Error: ${error.message}`);
-        } finally {
-            mostrarCargando(false);
         }
-    }
+    });
+}
 
-    // Añadir evento para el botón
+function selectModel(model, selectedCard) {
+    console.log('Seleccionando modelo:', model); // Debug
+    
+    // Actualizar UI
+    document.querySelectorAll('.model-card').forEach(card => {
+        card.classList.remove('selected');
+    });
+    selectedCard.classList.add('selected');
+    
+    // Guardar modelo seleccionado
+    selectedModel = model;
+    
+    // Mostrar contenedor de preguntas
+    const questionContainer = document.querySelector('.question-container');
+    if (questionContainer) {
+        questionContainer.style.display = 'block';
+        questionContainer.scrollIntoView({ behavior: 'smooth' });
+    }
+}
+
+function initializeQuestionForm() {
+    console.log('Inicializando formulario de pregunta'); // Debug
+    
     const btnPreguntar = document.getElementById('btnPreguntar');
+    const preguntaTextarea = document.getElementById('pregunta');
+
     if (btnPreguntar) {
-        btnPreguntar.addEventListener('click', hacerPregunta);
+        btnPreguntar.addEventListener('click', function(e) {
+            console.log('Botón preguntar clickeado'); // Debug
+            e.preventDefault();
+            hacerPregunta();
+        });
     }
 
-    // Añadir evento para Enter en el textarea
-    const preguntaTextarea = document.getElementById('pregunta');
     if (preguntaTextarea) {
         preguntaTextarea.addEventListener('keypress', function(e) {
             if (e.key === 'Enter' && !e.shiftKey) {
+                console.log('Enter presionado en textarea'); // Debug
                 e.preventDefault();
                 hacerPregunta();
             }
         });
     }
-});
+}
+
+async function hacerPregunta() {
+    console.log('Ejecutando hacerPregunta'); // Debug
+    console.log('Modelo seleccionado:', selectedModel); // Debug
+
+    if (!selectedModel) {
+        mostrarError('Por favor, selecciona un modelo de IA primero');
+        return;
+    }
+
+    const preguntaInput = document.getElementById('pregunta');
+    const pregunta = preguntaInput?.value?.trim();
+
+    if (!pregunta) {
+        mostrarError('Por favor, escribe una pregunta');
+        return;
+    }
+
+    try {
+        console.log('Enviando pregunta al servidor...'); // Debug
+        mostrarCargando(true);
+        document.getElementById('respuesta').style.display = 'none';
+
+        const response = await fetch('/preguntar', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ 
+                pregunta: pregunta,
+                modelo: selectedModel 
+            })
+        });
+
+        console.log('Respuesta recibida del servidor'); // Debug
+
+        if (!response.ok) {
+            throw new Error(`Error del servidor: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log('Datos recibidos:', data); // Debug
+
+        if (data.error) {
+            throw new Error(data.error);
+        }
+
+        mostrarRespuesta(data);
+
+    } catch (error) {
+        console.error('Error:', error);
+        mostrarError(`Error: ${error.message}`);
+    } finally {
+        mostrarCargando(false);
+    }
+}
+
+function mostrarCargando(mostrar) {
+    const loading = document.getElementById('loading');
+    const btnPreguntar = document.getElementById('btnPreguntar');
+    const preguntaTextarea = document.getElementById('pregunta');
+    
+    if (loading && btnPreguntar && preguntaTextarea) {
+        loading.style.display = mostrar ? 'flex' : 'none';
+        btnPreguntar.disabled = mostrar;
+        preguntaTextarea.disabled = mostrar;
+        
+        if (mostrar) {
+            btnPreguntar.classList.add('mdc-button--disabled');
+        } else {
+            btnPreguntar.classList.remove('mdc-button--disabled');
+        }
+    }
+}
+
+function mostrarError(mensaje) {
+    console.error('Error:', mensaje); // Debug
+    alert(mensaje);
+}
+
+function mostrarRespuesta(data) {
+    console.log('Mostrando respuesta:', data); // Debug
+    const respuestaDiv = document.getElementById('respuesta');
+    const contenidoRespuesta = document.getElementById('contenido-respuesta');
+
+    if (respuestaDiv && contenidoRespuesta && data.respuesta) {
+        contenidoRespuesta.innerHTML = data.respuesta;
+        respuestaDiv.style.display = 'block';
+        respuestaDiv.scrollIntoView({ behavior: 'smooth' });
+    }
+}
 

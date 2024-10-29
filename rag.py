@@ -1,136 +1,118 @@
 # rag.py
 import os
-from langchain_community.document_loaders import PyPDFLoader
-from langchain_community.document_loaders import DirectoryLoader
+from typing import List, Dict
+from langchain_community.document_loaders import PyPDFLoader, DirectoryLoader
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_anthropic import ChatAnthropic
+from langchain_openai import ChatOpenAI
+from langchain_mistralai import ChatMistralAI
 from langchain.chains import ConversationalRetrievalChain
+from langchain.schema import Document
+import config
 
-def procesar_pdfs(directorio, pdfs_seleccionados):
-    """
-    Carga y procesa los archivos PDF seleccionados
-    """
-    chunks = []
-    total_pdfs = len(pdfs_seleccionados)
-    
-    print("\nProcesando documentos:")
-    print("="*50)
-    
-    for i, pdf in enumerate(pdfs_seleccionados, 1):
-        try:
-            print(f"[{i}/{total_pdfs}] Procesando: {pdf}")
-            ruta_completa = os.path.join(directorio, pdf)
-            
-            # Cargar PDF
-            loader = PyPDFLoader(ruta_completa)
-            documentos = loader.load()
-            
-            # Dividir en chunks
-            text_splitter = RecursiveCharacterTextSplitter(
-                chunk_size=1000,
-                chunk_overlap=200,
-                length_function=len,
-                separators=["\n\n", "\n", ".", "!", "?", ",", " ", ""]
-            )
-            chunks_pdf = text_splitter.split_documents(documentos)
-            
-            # Agregar metadatos adicionales
-            for chunk in chunks_pdf:
-                chunk.metadata["source"] = pdf
-                chunk.metadata["order"] = i
-            
-            chunks.extend(chunks_pdf)
-            print(f"✓ {pdf} procesado correctamente ({len(chunks_pdf)} fragmentos)")
-            
-        except Exception as e:
-            print(f"✗ Error procesando {pdf}: {str(e)}")
-    
-    print(f"\nTotal de fragmentos procesados: {len(chunks)}")
-    return chunks
+def cargar_documentos(directorio: str = "documentos") -> List[Document]:
+    """Carga todos los documentos PDF del directorio especificado"""
+    loader = DirectoryLoader(
+        directorio,
+        glob="**/*.pdf",
+        loader_cls=PyPDFLoader
+    )
+    return loader.load()
 
-def crear_rag(directorio_docs, api_key, pdfs_seleccionados):
-    """
-    Crea y configura el sistema RAG con múltiples documentos
-    """
-    print("\nInicializando sistema RAG...")
-    print("="*50)
-    
-    # Configurar embeddings
-    print("Cargando modelo de embeddings...")
+def crear_chunks(documentos: List[Document], 
+                chunk_size: int = 1000, 
+                chunk_overlap: int = 200) -> List[Document]:
+    """Divide los documentos en chunks más pequeños"""
+    text_splitter = RecursiveCharacterTextSplitter(
+        chunk_size=chunk_size,
+        chunk_overlap=chunk_overlap
+    )
+    return text_splitter.split_documents(documentos)
+
+def crear_vectorstore(chunks: List[Document]) -> FAISS:
+    """Crea una base de datos vectorial con los chunks"""
     embeddings = HuggingFaceEmbeddings(
         model_name="sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
     )
-    
-    # Procesar PDFs seleccionados
-    chunks = procesar_pdfs(directorio_docs, pdfs_seleccionados)
-    if not chunks:
-        raise ValueError("No se pudo procesar ningún documento")
-    
-    # Crear base de datos vectorial
-    print("\nCreando base de datos vectorial...")
-    vectorstore = FAISS.from_documents(chunks, embeddings)
-    print(f"Base de datos creada con {len(chunks)} fragmentos")
-    
-    # Configurar Claude
-    print("\nConfigurando Claude 3 Sonnet...")
-    llm = ChatAnthropic(
-        model="claude-3-sonnet-20240229",
-        anthropic_api_key=api_key,
-        temperature=0.1
-    )
-    
-    # Crear cadena RAG
-    print("\nCreando cadena RAG...")
-    qa_chain = ConversationalRetrievalChain.from_llm(
-        llm=llm,
-        retriever=vectorstore.as_retriever(
-            search_type="similarity",
-            search_kwargs={"k": 3}
-        ),
-        return_source_documents=True,
-        verbose=True
-    )
-    
-    return qa_chain
+    return FAISS.from_documents(chunks, embeddings)
 
-def formatear_cita_apa(doc):
+def crear_llm(modelo: str = "claude"):
+    """Crea el modelo de lenguaje según el tipo especificado"""
+    if modelo == "claude":
+        print(f"Inicializando Claude con clave API: {config.ANTHROPIC_API_KEY[:8]}...")  # Solo muestra los primeros 8 caracteres
+        try:
+            return ChatAnthropic(
+                anthropic_api_key=config.ANTHROPIC_API_KEY,
+                model_name="claude-3-sonnet-20240229",
+                temperature=0.1,
+                max_tokens=4096
+            )
+        except Exception as e:
+            print(f"Error al inicializar Claude: {str(e)}")
+            raise
+    elif modelo == "gpt4":
+        return ChatOpenAI(
+            openai_api_key=config.OPENAI_API_KEY,
+            model_name="gpt-4-turbo-preview",
+            temperature=0.1,
+            max_tokens=4096
+        )
+    elif modelo == "mistral":
+        return ChatMistralAI(
+            mistral_api_key=config.MISTRAL_API_KEY,
+            model="mistral-large-latest",
+            temperature=0.1,
+            max_tokens=4096
+        )
+    else:
+        raise ValueError(f"Modelo no soportado: {modelo}")
+
+def crear_rag_system(modelo: str = "claude"):
     """
-    Formatea la metadata del documento en estilo APA
+    Crea y configura el sistema RAG completo
     """
     try:
-        # Extraer información del documento
-        source = doc.metadata.get('source', 'Documento sin título')
-        page = doc.metadata.get('page', '?')
+        # Cargar y procesar documentos
+        documentos = cargar_documentos()
+        chunks = crear_chunks(documentos)
+        vectorstore = crear_vectorstore(chunks)
         
-        # Eliminar la extensión .pdf del nombre del archivo
-        source = os.path.splitext(source)[0]
+        # Crear LLM según el modelo seleccionado
+        llm = crear_llm(modelo)
         
-        # Formatear el título si está en formato path
-        source = os.path.basename(source)
-        
-        # Formatear la cita en estilo APA
-        return f"{source} (p. {page})"
+        # Crear y retornar el sistema RAG
+        return ConversationalRetrievalChain.from_llm(
+            llm=llm,
+            retriever=vectorstore.as_retriever(search_kwargs={"k": 3}),
+            return_source_documents=True,
+            verbose=True
+        )
     except Exception as e:
-        print(f"Error al formatear cita APA: {e}")
-        return "Referencia no disponible"
+        print(f"Error creando el sistema RAG: {str(e)}")
+        raise
 
-def hacer_pregunta(qa_chain, pregunta, historial_chat=[]):
+def formatear_cita_apa(documento) -> str:
+    """Formatea una cita en estilo APA"""
+    # Extraer metadatos del documento
+    source = documento.metadata.get('source', 'Documento sin título')
+    filename = os.path.basename(source)
+    name_without_ext = os.path.splitext(filename)[0]
+    
+    # Crear cita APA básica
+    return f"{name_without_ext}. (s.f.). Página {documento.metadata.get('page', 'n/a')}."
+
+def hacer_pregunta(qa_chain, pregunta: str, historial_chat: List = None) -> Dict:
     """
-    Realiza una pregunta al sistema RAG y devuelve la respuesta formateada en HTML
+    Realiza una pregunta al sistema RAG y devuelve la respuesta formateada
     """
+    if historial_chat is None:
+        historial_chat = []
+
     prompt_template = """
     Por favor, proporciona una respuesta detallada y exhaustiva (mínimo 500 palabras) a la siguiente pregunta. 
-    Tu respuesta debe:
-    
-    1. Comenzar con una introducción que contextualice el tema
-    2. Desarrollar múltiples aspectos y perspectivas del tema
-    3. Incluir ejemplos específicos cuando sea relevante
-    4. Proporcionar explicaciones detalladas de conceptos clave
-    5. Concluir con un resumen de los puntos principales
-    
-    Estructura tu respuesta siguiendo este formato HTML específico:
+    Tu respuesta debe seguir esta estructura HTML específica:
 
     <article class="respuesta-completa">
         <h2>[Título descriptivo y relevante]</h2>
@@ -140,70 +122,61 @@ def hacer_pregunta(qa_chain, pregunta, historial_chat=[]):
             <p>[Contexto general y relevancia del tema]</p>
             
             <h3>Desarrollo Principal</h3>
-            [Múltiples párrafos con subtemas, usando:
-            - <p> para párrafos
-            - <strong> para conceptos importantes
-            - <ul>/<li> para listas
-            - <blockquote> para citas o ejemplos destacados
-            - <h4> para subtemas específicos]
+            [Múltiples párrafos con subtemas]
             
-            <h3>Aspectos Adicionales a Considerar</h3>
-            [Perspectivas alternativas, casos especiales, o consideraciones importantes]
+            <h3>Aspectos Adicionales</h3>
+            [Perspectivas alternativas o consideraciones importantes]
             
             <h3>Conclusión</h3>
-            <p>[Resumen de los puntos clave y cierre]</p>
+            <p>[Resumen de puntos clave]</p>
         </div>
         
         <div class="tags">
             <span class="tag">#[tag1]</span>
             <span class="tag">#[tag2]</span>
             <span class="tag">#[tag3]</span>
-            <span class="tag">#[tag4]</span>
         </div>
     </article>
-
-    IMPORTANTE:
-    - La respuesta debe ser extensa y detallada (mínimo 500 palabras)
-    - Usa lenguaje claro pero técnico cuando sea apropiado
-    - Incluye múltiples perspectivas y matices del tema
-    - Proporciona ejemplos concretos
-    - Asegúrate de que cada sección tenga suficiente desarrollo
-    - Utiliza los elementos HTML para una estructura clara y legible
 
     Pregunta: {pregunta}
     """
 
-    # Realizar la consulta
-    resultado = qa_chain({
-        "question": prompt_template.format(pregunta=pregunta),
-        "chat_history": historial_chat
-    })
-    
-    # Procesar las fuentes y crear citas APA
-    citas_apa = set()
-    for doc in resultado["source_documents"]:
-        cita = formatear_cita_apa(doc)
-        citas_apa.add(cita)
+    try:
+        # Realizar la consulta
+        resultado = qa_chain({
+            "question": prompt_template.format(pregunta=pregunta),
+            "chat_history": historial_chat
+        })
+        
+        # Procesar las fuentes
+        citas_apa = set()
+        for doc in resultado.get("source_documents", []):
+            cita = formatear_cita_apa(doc)
+            citas_apa.add(cita)
 
-    # Crear sección de referencias
-    referencias_html = f"""
-    <section class="referencias">
-        <h3>Referencias</h3>
-        <ul class="referencias-lista">
-            {''.join(f'<li class="referencia-item">{cita}</li>' for cita in sorted(citas_apa))}
-        </ul>
-    </section>
-    """
+        # Crear sección de referencias
+        referencias_html = f"""
+        <section class="referencias">
+            <h3>Referencias</h3>
+            <ul class="referencias-lista">
+                {''.join(f'<li class="referencia-item">{cita}</li>' for cita in sorted(citas_apa))}
+            </ul>
+        </section>
+        """
 
-    # Combinar respuesta y referencias
-    respuesta_completa = f"""
-    <div class="contenedor-respuesta">
-        {resultado['answer']}
-        {referencias_html}
-    </div>
-    """
+        # Combinar respuesta y referencias
+        respuesta_completa = f"""
+        <div class="contenedor-respuesta">
+            {resultado['answer']}
+            {referencias_html}
+        </div>
+        """
 
-    return {
-        "respuesta": respuesta_completa,
-        "citas_apa": sorted(list(citas_apa))
-    }
+        return {
+            "respuesta": respuesta_completa,
+            "fuentes": sorted(list(citas_apa))
+        }
+        
+    except Exception as e:
+        print(f"Error en hacer_pregunta: {str(e)}")
+        raise
