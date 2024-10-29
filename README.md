@@ -38,13 +38,39 @@ ANTHROPIC_API_KEY=tu_clave_de_api_de_anthropic
 
 ## 📁 Estructura del Proyecto
 
-mi_rag_claude/
-├── __init__.py
-├── main.py          # Punto de entrada y CLI
-├── config.py        # Configuración y variables de entorno
-├── rag.py           # Implementación del sistema RAG
-└── documentos/      # Directorio para PDFs
-    └── ejemplo.pdf
+
+## Descripción de la Estructura del Proyecto
+
+- **`__init__.py`**: Indica que el directorio `mi_rag_claude` es un paquete Python.
+- **`main.py`**: Archivo principal que actúa como punto de entrada y proporciona una interfaz de línea de comandos (CLI) para interactuar con el sistema RAG.
+- **`config.py`**: Contiene la configuración del proyecto y las variables de entorno necesarias para su funcionamiento.
+- **`rag.py`**: Implementación del sistema **Retrieval-Augmented Generation (RAG)** que integra **Claude** y **Sonnet 2.5**.
+- **`documentos/`**: Directorio destinado a almacenar archivos PDF que serán utilizados por el sistema RAG.
+  - **`ejemplo.pdf`**: Un archivo PDF de ejemplo dentro del directorio `documentos`.
+
+## Cómo Utilizar la Estructura
+
+Esta estructura organizada facilita el mantenimiento y la escalabilidad del proyecto. Asegúrate de mantener una convención de nombres clara y comentarios descriptivos para cada archivo y directorio, lo que ayudará a otros colaboradores a entender rápidamente la funcionalidad de cada componente.
+
+### Pasos Sugeridos
+
+1. **Configuración Inicial**:
+    - Edita `config.py` para establecer las variables de entorno necesarias, como claves API o rutas de acceso a recursos.
+
+2. **Añadir Documentos**:
+    - Coloca los archivos PDF que deseas procesar dentro del directorio `documentos/`.
+
+3. **Ejecutar el Proyecto**:
+    - Usa `main.py` para interactuar con el sistema RAG a través de la línea de comandos.
+
+4. **Desarrollo y Extensiones**:
+    - Modifica `rag.py` para ajustar la implementación del sistema RAG según tus necesidades específicas.
+    - Añade funcionalidades adicionales en otros módulos según sea necesario.
+
+## Ejemplo de Uso
+
+```bash
+python main.py --help
 
 
 
