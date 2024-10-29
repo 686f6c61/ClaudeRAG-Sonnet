@@ -1,7 +1,7 @@
 # 🤖 RAG con Claude 3 Sonnet
 
 ## 📖 Descripción
-Sistema de Recuperación Aumentada de Generación (RAG) implementado con Claude 3 Sonnet de Anthropic. Permite realizar consultas sobre documentos PDF utilizando embeddings multilingües y una base de datos vectorial FAISS.
+Sistema de Recuperación Aumentada de Generación (RAG) implementado con Claude 3 Sonnet 2.5 de Anthropic. Permite realizar consultas sobre documentos PDF utilizando embeddings multilingües y una base de datos vectorial FAISS.
 
 ## 🛠️ Tecnologías
 - **LLM**: Claude 3 Sonnet (Anthropic)
