@@ -1,11 +1,11 @@
 # 🤖 RAG MultiLLM
 
 ## 📝 Descripción
-RAG MultiLLM es un sistema de Recuperación Aumentada de Generación (RAG) que integra múltiples modelos de lenguaje de última generación. Esta aplicación permite interactuar con tres de los LLMs más potentes del mercado: Claude 3 Sonnet de Anthropic, GPT-4 Turbo de OpenAI y Mistral Large de Mistral AI. El sistema está diseñado para proporcionar respuestas contextualizadas y precisas basadas en documentos PDF proporcionados por el usuario.
+RAG MultiLLM es un sistema de Recuperación Aumentada de Generación (RAG) que integra múltiples modelos de lenguajen. Esta aplicación permite interactuar con tres de los LLMs más potentes del mercado: Claude 3.5 Sonnet de Anthropic, GPT-4 Turbo de OpenAI y Mistral Large de Mistral AI. El sistema está diseñado para proporcionar respuestas contextualizadas y precisas basadas en documentos PDF proporcionados por el usuario.
 
 ## ✨ Características Principales
 - **🔄 Múltiples Modelos**: Integración con tres LLMs líderes:
-  - 🧠 Claude 3 Sonnet (Anthropic)
+  - 🧠 Claude 3.5 Sonnet (Anthropic)
   - 🌟 GPT-4 Turbo (OpenAI)
   - ⚡ Mistral Large (Mistral AI)
 - **📚 Sistema RAG Avanzado**: Procesamiento y recuperación inteligente de información desde documentos PDF
@@ -98,7 +98,7 @@ rag-multillm/
 
 ## 🤖 Características de los Modelos
 
-### 🧠 Claude 3 Sonnet
+### 🧠 Claude 3.5 Sonnet
 - Excelente comprensión contextual
 - Respuestas detalladas y estructuradas
 - Soporte multilingüe avanzado
