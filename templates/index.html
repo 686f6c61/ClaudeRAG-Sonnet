@@ -32,13 +32,18 @@
                 <span class="project-author">un side project de 686f6c61</span>
             </section>
             <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
-                <span class="version-badge">v0.2</span>
+                <span class="version-badge">v0.3</span>
             </section>
         </div>
     </header>
 
     <div class="model-selector-container">
-        <h2 class="model-selector-title">Selecciona el Modelo de IA</h2>
+        <h2 class="model-selector-title">
+            Selecciona el Modelo 
+            <img src="{{ url_for('static', filename='images/ai.png') }}" 
+                 alt="AI Icon" 
+                 class="ai-icon">
+        </h2>
         <div class="model-cards">
             <div class="model-card" data-model="claude">
                 <div class="model-card-header">
@@ -50,7 +55,7 @@
                            target="_blank" 
                            rel="noopener" 
                            class="model-title-link">
-                            Claude Sonnet 2.5
+                            Claude Sonnet 3.5
                         </a>
                     </h4>
                 </div>
@@ -169,7 +174,7 @@
                     <span>@686f6c61</span>
                 </a>
             </p>
-            <p class="footer-version">Versión 0.2</p>
+            <p class="footer-version">Versión 0.3</p>
         </div>
     </footer>
 

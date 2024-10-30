@@ -41,11 +41,11 @@ def crear_vectorstore(chunks: List[Document]) -> FAISS:
 def crear_llm(modelo: str = "claude"):
     """Crea el modelo de lenguaje según el tipo especificado"""
     if modelo == "claude":
-        print(f"Inicializando Claude con clave API: {config.ANTHROPIC_API_KEY[:8]}...")  # Solo muestra los primeros 8 caracteres
+        print(f"Inicializando Claude con clave API: {config.ANTHROPIC_API_KEY[:8]}...")
         try:
             return ChatAnthropic(
                 anthropic_api_key=config.ANTHROPIC_API_KEY,
-                model_name="claude-3-sonnet-20240229",
+                model_name="claude-3-5-sonnet-latest",
                 temperature=0.1,
                 max_tokens=4096
             )

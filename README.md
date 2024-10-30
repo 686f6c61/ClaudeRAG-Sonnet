@@ -5,8 +5,8 @@ RAG MultiLLM es un sistema de Recuperación Aumentada de Generación (RAG) que i
 
 ## ✨ Características Principales
 - **🔄 Múltiples Modelos**: Integración con tres LLMs líderes:
-  - 🧠 claude-3-5-sonnet-latest (Anthropic)
-  - 🌟 chatgpt-4o Turbo (OpenAI)
+  - 🧠 Claude 3.5 Sonnet (Anthropic)
+  - 🌟 GPT-4 Turbo (OpenAI)
   - ⚡ Mistral Large (Mistral AI)
 - **📚 Sistema RAG Avanzado**: Procesamiento y recuperación inteligente de información desde documentos PDF
 - **🎨 Interfaz Moderna**: UI/UX intuitiva con Material Design
@@ -18,7 +18,7 @@ RAG MultiLLM es un sistema de Recuperación Aumentada de Generación (RAG) que i
 - 📦 pip (gestor de paquetes de Python)
 - 🔑 Claves API de:
   - Anthropic (Claude)
-  - OpenAI (GPT-4o)
+  - OpenAI (GPT-4)
   - Mistral AI
 
 ## 🚀 Instalación
@@ -88,7 +88,7 @@ rag-multillm/
 │   ├── js/
 │   └── images/
 ├── templates/
-├── documentos/
+├── uploads/
 ├── .env
 ├── app.py
 ├── config.py

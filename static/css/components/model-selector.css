@@ -12,6 +12,16 @@
     margin-bottom: 32px;
     text-align: center;
     font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+}
+
+.ai-icon {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
 }
 
 .model-cards {
@@ -104,6 +114,8 @@
 .model-card-content ul {
     flex-grow: 1;
     margin-bottom: 20px;
+    list-style: none;
+    padding: 0;
 }
 
 .model-card-content li {
@@ -111,6 +123,7 @@
     margin-bottom: 12px;
     padding-left: 28px;
     position: relative;
+    list-style-type: none;
 }
 
 .model-card-content li:before {
