@@ -31,7 +31,7 @@ cd rag-multillm
 
 2. Crear y activar entorno virtual:
 ```bash
-python -m venv venv
+python3 -m venv venv
 source venv/bin/activate  # En Windows: venv\Scripts\activate
 ```
 
