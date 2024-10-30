@@ -88,7 +88,7 @@ rag-multillm/
 │   ├── js/
 │   └── images/
 ├── templates/
-├── uploads/
+├── documentos/
 ├── .env
 ├── app.py
 ├── config.py
